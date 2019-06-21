@@ -1,5 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator, MinValueValidator
+import datetime
+
+def current_year():
+    return datetime.date.today().year
+
+
+def max_value_current_year(value):
+    return MaxValueValidator(current_year())(value)
+
 
 class IntegerRangeField(models.IntegerField):
     def __init__(self, verbose_name=None, name=None, min_value=None, max_value=None, **kwargs):
@@ -32,6 +42,9 @@ class Student(models.Model):
         choices = JURUSAN_CHOICES,
         default = IF
     )
+    angkatan = models.PositiveIntegerField(
+        default=current_year(), validators=[MinValueValidator(1984), max_value_current_year])
+        
     photo = models.CharField(max_length=255,blank=True)
     class Meta:
 	    ordering = ('nim',)
