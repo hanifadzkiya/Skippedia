@@ -26,7 +26,7 @@ class Student(models.Model):
     ]
     id = models.AutoField(primary_key=True)
     id_user = models.ForeignKey(User, on_delete=models.CASCADE)
-    nim = models.CharField(max_length=8,primary_key=True)
+    nim = models.CharField(max_length=8)
     jurusan = models.CharField(
         max_length = 3,
         choices = JURUSAN_CHOICES,
@@ -42,7 +42,7 @@ class Student(models.Model):
 
 class Reputation(models.Model):
     id = models.AutoField(primary_key=True)
-    id_receiver = models.ForeignKey(User,on_delete=models.CASCADE)
-    id_received = models.ForeignKey(User,on_delete=models.CASCADE)
+    id_sender = models.ForeignKey(User,on_delete=models.CASCADE,related_name='sended_reputations')
+    id_receiver = models.ForeignKey(User,on_delete=models.CASCADE,related_name='received_reputations')
     rating = IntegerRangeField(min_value=1, max_value=10)
     comment = models.CharField(max_length=255)
