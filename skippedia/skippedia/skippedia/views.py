@@ -32,6 +32,5 @@ def student_by_nim(request,nim) :
 	reputations = Reputation.objects.all().filter(receiver=student)
 	average_rating = Reputation.objects.all().filter(receiver=student).aggregate(Avg('rating'))
 	data = {"student":student,"reputations":reputations,"average_rating":average_rating["rating__avg"]}
-	print(data)
 	return render(request,"skippedia/student.html",data)
 
