@@ -35,7 +35,7 @@ class Student(models.Model):
         (STI , 'Sistem dan Teknologi Informasi')
     ]
     id = models.AutoField(primary_key=True)
-    id_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    id_user = models.OneToOneField(User, on_delete=models.CASCADE)
     nim = models.CharField(max_length=8)
     jurusan = models.CharField(
         max_length = 3,
