@@ -45,7 +45,7 @@ class Student(models.Model):
     angkatan = models.PositiveIntegerField(
         default=current_year(), validators=[MinValueValidator(1984), max_value_current_year])
         
-    photo = models.CharField(max_length=255,blank=True)
+    photo = models.CharField(max_length=255,blank=True,default='default.jpg')
     class Meta:
 	    ordering = ('nim',)
 
