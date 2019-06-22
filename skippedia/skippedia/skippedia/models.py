@@ -34,14 +34,14 @@ class Student(models.Model):
         (IF , 'Teknik Informatika'),
         (STI , 'Sistem dan Teknologi Informasi')
     ]
+
+    #Fields 
+
     id = models.AutoField(primary_key=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    email = models.EmailField()
+    nama = models.CharField(max_length=255)
     nim = models.CharField(max_length=8)
-    jurusan = models.CharField(
-        max_length = 3,
-        choices = JURUSAN_CHOICES,
-        default = IF
-    )
+    jurusan = models.CharField(max_length = 3,choices = JURUSAN_CHOICES,default = IF)
     angkatan = models.PositiveIntegerField(
         default=current_year(), validators=[MinValueValidator(1984), max_value_current_year])
         
@@ -55,7 +55,7 @@ class Student(models.Model):
 
 class Reputation(models.Model):
     id = models.AutoField(primary_key=True)
-    sender = models.ForeignKey(User,on_delete=models.CASCADE,related_name='sended_reputations')
-    receiver = models.ForeignKey(User,on_delete=models.CASCADE,related_name='received_reputations')
+    sender = models.ForeignKey(Student,on_delete=models.CASCADE,related_name='sended_reputations')
+    receiver = models.ForeignKey(Student,on_delete=models.CASCADE,related_name='received_reputations')
     rating = IntegerRangeField(min_value=1, max_value=10)
     comment = models.CharField(max_length=255)
