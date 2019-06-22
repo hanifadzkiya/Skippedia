@@ -23,6 +23,6 @@ urlpatterns = [
     url(r'^auth/', include('social_django.urls', namespace='social')),
     path('admin/', admin.site.urls),
     path('home',views.home,name="home"),
-    path('students',views.students),
+    path('api/students',views.students),
     path('student/<int:nim>',views.student_by_nim)
 ]
