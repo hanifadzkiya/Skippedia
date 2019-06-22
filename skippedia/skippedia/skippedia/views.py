@@ -6,3 +6,7 @@ from django.template import loader
 
 def index(request) :
     return render(request,"skippedia/index.html")
+
+
+def home(request) :
+    return render(request,"skippedia/home.html")
