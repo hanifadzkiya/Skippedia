@@ -2,12 +2,15 @@ from django.shortcuts import render, redirect
 from django.template import loader
 from django.http import HttpResponse, HttpResponseNotFound
 from django.views.decorators.csrf import csrf_exempt
-from .models import Student
+from .models import Student, Reputation
 from .forms import NewStudentForm
 from django.db.models import Avg
+<<<<<<< HEAD
 from django.db import connection
 
 import json
+=======
+>>>>>>> 85803bf8b7abea62407aa2f7d124c1bfba01dc71
 
 def index(request) :
     return render(request,"skippedia/index.html")
@@ -29,14 +32,22 @@ def home(request) :
 
 
 
-@csrf_exempt
-def student(request) :
-	if(request.method == "POST"):
-		new_student = Student()
-		new_student.email = request.POST.get("email")
-		new_student.nama = request.POST.get("nama")
-		new_student.nim = request.POST.get("nim")
-		new_student.jurusan = request.POST.get("jurusan")
-		new_student.angkatan = request.POST.get("angkatan")
-		new_student.save()
-		return HttpResponse("Success")
+def students(request) :
+	students_query = Student.objects.all()
+	jurusan = str(request.GET.get("jurusan"))
+	angkatan = request.GET.get("angkatan")
+	sort_rating = request.GET.get("sort_rating")
+	if(jurusan is not None):
+		students_query = students_query.filter(jurusan = jurusan)
+	if(angkatan is not None):
+		students_query = students_query.filter(angkatan = int(str(angkatan)))
+	return render(request,"skippedia/students.html",{"students":students_query})
+
+def student_by_nim(request,nim) :
+	student = Student.objects.get(nim=nim)
+	reputations = Reputation.objects.all().filter(receiver=student)
+	average_rating = Reputation.objects.all().filter(receiver=student).aggregate(Avg('rating'))
+	data = {"student":student,"reputations":reputations,"average_rating":average_rating["rating__avg"]}
+	print(data)
+	return render(request,"skippedia/student.html",data)
+
