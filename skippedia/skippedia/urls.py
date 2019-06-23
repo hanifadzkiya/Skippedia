@@ -17,6 +17,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.urls import path
 from .skippedia import views
+from django.contrib.auth import logout
 
 urlpatterns = [
     path('', views.index, name="index"),
@@ -27,5 +28,5 @@ urlpatterns = [
     path('setting',views.setting, name='setting'),
     path('logout',views.logout, name='logout'),
     path('student/<int:nim>',views.student_by_nim),
-    path('photo',views.photo)
+    path('logout', views.keluar)
 ]

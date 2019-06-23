@@ -9,6 +9,7 @@ from django.db import connection
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.decorators.cache import cache_page
 from django.core.files.storage import FileSystemStorage
+from django.contrib.auth import logout
 
 import json
 
@@ -16,6 +17,7 @@ def index(request) :
     return render(request,"skippedia/index.html")
 
 def home(request) :
+	
 	if request.user.is_authenticated :
 		if(request.method == "POST"):
 			myfile = request.FILES['myfile']
@@ -25,12 +27,12 @@ def home(request) :
 			s.photo = filename
 			s.save()
 			uploaded_file_url = fs.url(filename)
-			return HttpResponse(uploaded_file_url)
 		print(request);
 		user = Student.objects.get(email=request.user.email);
 		data = {"user":user};
 		return render(request,"skippedia/home_temp.html",data)
 	else :
+
 		return redirect('/')
 
 @csrf_protect
@@ -119,8 +121,7 @@ def setting(request) :
 		return HttpResponse("sukses");
 	return render(request,"skippedia/home.html")
 
-def logout(request) :
-	return HttpResponse("logout")
-
-def photo(request) :
-	return HttpResponse("Sukses")
+def keluar(request) :
+	if request.user.is_authenticated :
+		logout(request)
+	return redirect('/')
