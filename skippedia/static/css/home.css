@@ -1,0 +1,35 @@
+#rating-list {
+	padding: 5%;
+	margin: auto;
+}
+
+td {
+	border : 1px solid black;
+	padding: 5px;
+}
+
+th {
+	border : 1px solid black;
+	padding: 5px;
+	text-align: center !important;
+}
+
+.col-no {
+	width: 5%;
+	text-align: center;
+}
+
+.col-nim {
+	width: 30%;
+	text-align: center;
+}
+
+.col-nama {
+	width: 50%;
+	text-align: left;
+}
+
+.col-rating {
+	width: 15%;
+	text-align: center;
+}

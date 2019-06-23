@@ -24,5 +24,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('home',views.home,name="home"),
     path('api/students',views.students),
-    path('student/<int:nim>',views.student_by_nim)
+    path('setting',views.setting, name='setting'),
+    path('logout',views.logout, name='logout'),
+    path('student/<int:nim>',views.student_by_nim),
+    path('test',views.tes)
 ]
