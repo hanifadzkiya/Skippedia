@@ -61,18 +61,3 @@ def setting(request) :
 
 def logout(request) :
 	return HttpResponse("logout")
-
-def tes(request):
-    user_list = Reputation.objects.all()
-    page = request.GET.get('page', 1)
-
-    paginator = Paginator(user_list, 10)
-    try:
-        users = paginator.page(page)
-    except PageNotAnInteger:
-        users = paginator.page(1)
-    except EmptyPage:
-        users = paginator.page(paginator.num_pages)
-
-    return render(request, 'skippedia/tes.html', { 'users': users })
-	
