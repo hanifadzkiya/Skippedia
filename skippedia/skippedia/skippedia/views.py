@@ -14,10 +14,12 @@ def index(request) :
     return render(request,"skippedia/index.html")
 
 def home(request) :
+	
 	if request.user.is_authenticated :
-		print(request);
+
 		return render(request,"skippedia/home.html")
 	else :
+
 		return redirect('/')
 
 @csrf_exempt
@@ -37,7 +39,6 @@ def students(request) :
 	cursor=connection.cursor()
 	cursor.execute("SELECT st.id, st.nama , st.nim , IFNULL(AVG(sp.rating),0) as 'avg_rating' FROM skippedia_student AS st LEFT JOIN skippedia_reputation AS sp ON st.id = sp.receiver_id WHERE " + condition + " GROUP BY st.id ORDER BY avg_rating " + sort + " LIMIT 10")
 	top_performers_IF = cursor.fetchall()
-	print("MASUK")
 	return HttpResponse(json.dumps(top_performers_IF))
 
 
