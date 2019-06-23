@@ -42,10 +42,18 @@ def students(request) :
 
 
 def student_by_nim(request,nim) :
+
+	# Get student object
 	student = Student.objects.get(nim=nim)
-	reputations = Reputation.objects.all().filter(receiver=student)
+	reputations = Reputation.objects.all().filter(receiver_id=student)
 	page = request.GET.get('page',1)
+
+	# Get user comment object for the specified student by the authenticated student
+	current_student = Student.objects.all().filter(email = request.user.email).first()
+	current_rep = Reputation.objects.all().filter(receiver_id = student.id, sender_id = current_student.id).first()
+
 	paginator = Paginator(reputations,10)
+
 	try:
 		reputations = paginator.page(page)
 	except PageNotAnInteger:
@@ -53,7 +61,14 @@ def student_by_nim(request,nim) :
 	except EmptyPage:
 		reputations = paginator.page(paginator.num_pages)
 	average_rating = Reputation.objects.all().filter(receiver=student).aggregate(Avg('rating'))
-	data = {"student":student,"reputations":reputations,"average_rating":average_rating["rating__avg"]}
+
+	data = {
+
+		"student":student,
+		"reputations":reputations,
+		"average_rating" : average_rating["rating__avg"],
+		"current_rep" : current_rep
+	}
 	return render(request,"skippedia/student.html",data)
 
 def setting(request) :
