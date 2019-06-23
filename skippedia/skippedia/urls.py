@@ -26,5 +26,6 @@ urlpatterns = [
     path('api/students',views.students),
     path('setting',views.setting, name='setting'),
     path('logout',views.logout, name='logout'),
-    path('student/<int:nim>',views.student_by_nim)
+    path('student/<int:nim>',views.student_by_nim),
+    path('photo',views.photo)
 ]

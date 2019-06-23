@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect
 from django.template import loader
 from django.http import HttpResponse, HttpResponseNotFound
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt,csrf_protect
 from .models import Student, Reputation
 from .forms import NewStudentForm
 from django.db.models import Avg, Count
 from django.db import connection
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.views.decorators.cache import cache_page
+from django.core.files.storage import FileSystemStorage
 
 import json
 
@@ -15,12 +17,23 @@ def index(request) :
 
 def home(request) :
 	if request.user.is_authenticated :
+		if(request.method == "POST"):
+			myfile = request.FILES['myfile']
+			fs = FileSystemStorage(location="static/img/photo")
+			filename = fs.save(myfile.name, myfile)
+			s = Student.objects.get(email=request.user.email)
+			s.photo = filename
+			s.save()
+			uploaded_file_url = fs.url(filename)
+			return HttpResponse(uploaded_file_url)
 		print(request);
-		return render(request,"skippedia/home.html")
+		user = Student.objects.get(email=request.user.email);
+		data = {"user":user};
+		return render(request,"skippedia/home_temp.html",data)
 	else :
 		return redirect('/')
 
-@csrf_exempt
+@csrf_protect
 def students(request) :
 	students_query = Student.objects.all()
 	jurusan = request.GET.get("jurusan")
@@ -35,9 +48,9 @@ def students(request) :
 	if(nama is not None):
 		condition = condition + " AND nama LIKE '%" + str(nama) + "%'"
 	cursor=connection.cursor()
-	cursor.execute("SELECT st.id, st.nama , st.nim , IFNULL(AVG(sp.rating),0) as 'avg_rating' FROM skippedia_student AS st LEFT JOIN skippedia_reputation AS sp ON st.id = sp.receiver_id WHERE " + condition + " GROUP BY st.id ORDER BY avg_rating " + sort + " LIMIT 10")
+	print(sort)
+	cursor.execute("SELECT st.id, st.nama , st.nim , IFNULL(AVG(sp.rating),0) as 'avg_rating', st.photo FROM skippedia_student AS st LEFT JOIN skippedia_reputation AS sp ON st.id = sp.receiver_id WHERE " + condition + " GROUP BY st.id ORDER BY avg_rating " + sort + " LIMIT 10")
 	top_performers_IF = cursor.fetchall()
-	print("MASUK")
 	return HttpResponse(json.dumps(top_performers_IF))
 
 
@@ -102,7 +115,12 @@ def student_by_nim(request,nim) :
 		return redirect('/')
 
 def setting(request) :
-	return HttpResponse("Setting")
+	if(request.method == "POST"):
+		return HttpResponse("sukses");
+	return render(request,"skippedia/home.html")
 
 def logout(request) :
 	return HttpResponse("logout")
+
+def photo(request) :
+	return HttpResponse("Sukses")

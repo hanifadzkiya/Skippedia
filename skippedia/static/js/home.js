@@ -1,24 +1,26 @@
 function createTable(angkatan,jurusan,sort,nama){
+	console.log("ajajkl");
 	rating_list = document.getElementById("rating-list");
 	rating_list.innerHTML = "";
 	table = document.createElement("table");
 	row = document.createElement("tr");
 	col_no = document.createElement("th");
 	col_no.textContent += "No";
-	col_no.classList.add("col-no");
+	col_no.classList.add("th-no");
 	col_nama = document.createElement("th");
 	col_nama.textContent += "Nama";
-	col_nama.classList.add("col-nama");
+	col_nama.classList.add("th-nama");
 	col_nim = document.createElement("th");
 	col_nim.textContent += "NIM";
-	col_nim.classList.add("col-nim");
+	col_nim.classList.add("th-nim");
 	col_rating = document.createElement("th");
 	col_rating.textContent += "Rating";
-	col_rating.classList.add("col-rating");
+	col_rating.classList.add("th-rating");
 	row.appendChild(col_no);
 	row.appendChild(col_nama);
 	row.appendChild(col_nim);
 	row.appendChild(col_rating);
+	table.classList.add("table-list");
 	table.appendChild(row);
 	belum = false;
 	blm = true;
@@ -49,12 +51,14 @@ function createTable(angkatan,jurusan,sort,nama){
 		}	
 	}
 	var Http = new XMLHttpRequest();
-	var url = "http://localhost:8000/api/students?" + params;
+	var url = "http://127.0.0.1:8000/api/students?" + params;
 	console.log(url);
 	Http.open("GET", url);
 	Http.responseType = 'text';
 	Http.send();
 	Http.onreadystatechange = function (e) {
+		console.log("AAA");
+		console.log(Http.responseText);
 	  if (Http.responseText != "" && belum == false) {
 	  	belum = true;
 	    answer = JSON.parse(Http.responseText);
@@ -102,5 +106,6 @@ function newFilter(){
 }
 
 document.addEventListener("DOMContentLoaded", function() {
+	console.log("aaa");
    createTable("","","DESC","");
 });

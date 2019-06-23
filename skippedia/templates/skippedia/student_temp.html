@@ -74,8 +74,11 @@
                         <div class="col-md-6 ml-auto mr-auto">
                         <div class="profile">
                                 <div class="avatar">
-                                    <img src="{% static 'img/photo/default.jpg'%}" alt="Circle Image" class="img-raised rounded-circle img-fluid">
+                                    {% with 'img/photo/'|add:student.photo as image_static %}
+                                    <img src="{% static image_static %}" alt="Circle Image" class="img-raised rounded-circle img-fluid" style="width: 100%;height: 100%;">
+                                    {% endwith %}
                                 </div>
+                                <div style="clear:both"></div>
                                 <div class="name">
                                     <h2 class="title">{{student.nama}}</h2>
                                     <h2 class="title"> Rating : 
