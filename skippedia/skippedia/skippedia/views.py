@@ -69,7 +69,7 @@ def student_by_nim(request,nim) :
 		"average_rating" : average_rating["rating__avg"],
 		"current_rep" : current_rep
 	}
-	return render(request,"skippedia/student.html",data)
+	return render(request,"skippedia/student_temp.html",data)
 
 def setting(request) :
 	return HttpResponse("Setting")
