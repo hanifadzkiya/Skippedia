@@ -43,33 +43,63 @@ def students(request) :
 
 def student_by_nim(request,nim) :
 
-	# Get student object
-	student = Student.objects.get(nim=nim)
-	reputations = Reputation.objects.all().filter(receiver_id=student)
-	page = request.GET.get('page',1)
+	if request.user.is_authenticated :
+		
 
-	# Get user comment object for the specified student by the authenticated student
-	current_student = Student.objects.all().filter(email = request.user.email).first()
-	current_rep = Reputation.objects.all().filter(receiver_id = student.id, sender_id = current_student.id).first()
+		student = Student.objects.get(nim=nim)
+		current_student = Student.objects.get(email = request.user.email)
+		
+		# Check whether renewed rating and comment is sent by post
+		if request.method == "POST" :
+			
+			current_student = Student.objects.get(email = request.user.email)
+			student = Student.objects.get(nim=nim)
 
-	paginator = Paginator(reputations,10)
+			current_rep = Reputation.objects.all().filter(receiver_id = student.id, sender_id = current_student.id).first()
 
-	try:
-		reputations = paginator.page(page)
-	except PageNotAnInteger:
-		reputations = paginator.page(1)
-	except EmptyPage:
-		reputations = paginator.page(paginator.num_pages)
-	average_rating = Reputation.objects.all().filter(receiver=student).aggregate(Avg('rating'))
+			if current_rep is None :
 
-	data = {
+				# Save new reputation
+				current_rep = Reputation.objects.create(receiver_id = student.id, rating = request.POST.get('rating'), comment = request.POST.get('comment'), sender_id = current_student.id)
+			
+			else :
 
-		"student":student,
-		"reputations":reputations,
-		"average_rating" : average_rating["rating__avg"],
-		"current_rep" : current_rep
-	}
-	return render(request,"skippedia/student_temp.html",data)
+				# Update reputation
+				current_rep.comment = request.POST.get('comment')
+				current_rep.rating = request.POST.get('rating')
+				current_rep.save()
+
+		# Get student object
+
+
+		reputations = Reputation.objects.all().filter(receiver_id=student)
+		page = request.GET.get('page',1)
+
+		# Get user comment object for the specified student by the authenticated student
+		current_rep = Reputation.objects.all().filter(receiver_id = student.id, sender_id = current_student.id).first()
+
+		paginator = Paginator(reputations,10)
+
+		try:
+			reputations = paginator.page(page)
+		except PageNotAnInteger:
+			reputations = paginator.page(1)
+		except EmptyPage:
+			reputations = paginator.page(paginator.num_pages)
+		average_rating = Reputation.objects.all().filter(receiver=student).aggregate(Avg('rating'))
+
+		data = {
+
+			"student":student,
+			"reputations":reputations,
+			"average_rating" : average_rating["rating__avg"],
+			"current_rep" : current_rep
+		}
+		return render(request,"skippedia/student_temp.html",data)
+
+	else :
+
+		return redirect('/')
 
 def setting(request) :
 	return HttpResponse("Setting")
