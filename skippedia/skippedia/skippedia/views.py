@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.template import loader
 from django.http import HttpResponse, HttpResponseNotFound
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
@@ -124,4 +124,4 @@ def setting(request) :
 def keluar(request) :
 	if request.user.is_authenticated :
 		logout(request)
-	return redirect('/')
+	return HttpResponseRedirect('/')

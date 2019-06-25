@@ -131,9 +131,11 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"), 
 ]
+STATIC_ROOT = os.path.join(BASE_DIR,"static_media")
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = ''
 
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY ='812539099048-4p23kgbc4srul0pf3qlavom7mh0e1hn3.apps.googleusercontent.com'  #Paste CLient Key
