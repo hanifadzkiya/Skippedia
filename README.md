@@ -1,6 +1,6 @@
 # README.MD
 
-# Project Title
+# Skippedia
 
 Skippedia is website to monitor the activity level of IF and STI ITB students. Every student has rating which given by another students. Of course, they also can give rating for their friends. Not only rating, commentar, message, and impression also can be given. Are you ready to join this project and be one of 10 best rating in hall of fame ?
 
