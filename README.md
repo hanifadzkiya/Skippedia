@@ -18,7 +18,7 @@ To install this project to your local machine, you should have :
 ### Installing
 
 ```
-1. Install Django : pip install django <br>
+1. Install Dependency Package : pip install requirements.txt <br>
 2. Move to Skippedia directory : cd <your directory>/Skippedia <br>
 3. Run skippedia in your local : python manage.py runserver <br>
 ```
