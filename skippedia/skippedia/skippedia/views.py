@@ -27,21 +27,22 @@ def home(request) :
 			s.photo = filename
 			s.save()
 			uploaded_file_url = fs.url(filename)
-		print(request);
 		user = Student.objects.get(email=request.user.email);
 		data = {"user":user};
-		return render(request,"skippedia/home_temp.html",data)
+		return render(request,"skippedia/home.html",data)
 	else :
 
 		return redirect('/')
 
 @csrf_protect
 def students(request) :
+	# Get Request Params
 	students_query = Student.objects.all()
 	jurusan = request.GET.get("jurusan")
 	angkatan = request.GET.get("angkatan")
 	sort = str(request.GET.get("sort"))
 	nama = request.GET.get("nama");
+	# Create SQL Query
 	condition = "1 = 1"
 	if(jurusan is not None):
 		condition = condition + " AND jurusan = '" + jurusan + "'"
@@ -50,7 +51,6 @@ def students(request) :
 	if(nama is not None):
 		condition = condition + " AND nama LIKE '%" + str(nama) + "%'"
 	cursor=connection.cursor()
-	print(sort)
 	cursor.execute("SELECT st.id, st.nama , st.nim , IFNULL(AVG(sp.rating),0) as 'avg_rating', st.photo FROM skippedia_student AS st LEFT JOIN skippedia_reputation AS sp ON st.id = sp.receiver_id WHERE " + condition + " GROUP BY st.id ORDER BY avg_rating " + sort + " LIMIT 10")
 	top_performers_IF = cursor.fetchall()
 	return HttpResponse(json.dumps(top_performers_IF))
@@ -124,4 +124,4 @@ def setting(request) :
 def keluar(request) :
 	if request.user.is_authenticated :
 		logout(request)
-	return HttpResponseRedirect('/')
+	return redirect('/')

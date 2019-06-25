@@ -27,6 +27,6 @@ urlpatterns = [
     path('home',views.home,name="home"),
     path('api/students',views.students),
     path('setting',views.setting, name='setting'),
-    path('logout',LogoutView.as_view(),{'next_page' : settings.LOGOUT_REDIRECT_URL } ,name='logout'),
+    path('logout',LogoutView.as_view(),{'next_page' : 'settings.LOGOUT_REDIRECT_URL' } ,name='logout'),
     path('student/<int:nim>',views.student_by_nim),
 ]

@@ -1,5 +1,7 @@
 function createTable(angkatan,jurusan,sort,nama){
-	console.log("ajajkl");
+	//Function for making a table that conatain student list 
+	//Input : Angkatan, jurusan, sort type, and nama
+	//Output : Print Table 
 	rating_list = document.getElementById("rating-list");
 	rating_list.innerHTML = "";
 	table = document.createElement("table");
@@ -52,13 +54,10 @@ function createTable(angkatan,jurusan,sort,nama){
 	}
 	var Http = new XMLHttpRequest();
 	var url = "http://127.0.0.1:8000/api/students?" + params;
-	console.log(url);
 	Http.open("GET", url);
 	Http.responseType = 'text';
 	Http.send();
 	Http.onreadystatechange = function (e) {
-		console.log("AAA");
-		console.log(Http.responseText);
 	  if (Http.responseText != "" && belum == false) {
 	  	belum = true;
 	    answer = JSON.parse(Http.responseText);
@@ -94,6 +93,7 @@ function createTable(angkatan,jurusan,sort,nama){
 }
 
 function newFilter(){
+	//Function tu make new table given by new filter
 	angkatan = document.getElementById("angkatan");
 	angkatan_value = angkatan.value;
 	jurusan = document.getElementById("jurusan");
@@ -106,6 +106,5 @@ function newFilter(){
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-	console.log("aaa");
    createTable("","","DESC","");
 });
