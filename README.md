@@ -11,16 +11,16 @@ Skippedia is website to monitor the activity level of IF and STI ITB students. E
 To install this project to your local machine, you should have :
 
 ```
-1. Python 3 <br>
+1. Python 3 
 2. Django 2.2
 ```
 
 ### Installing
 
 ```
-1. Install Dependency Package : pip install requirements.txt <br>
-2. Move to Skippedia directory : cd <your directory>/Skippedia <br>
-3. Run skippedia in your local : python manage.py runserver <br>
+1. Install Dependency Package : pip install requirements.txt 
+2. Move to Skippedia directory : cd <your directory>/Skippedia 
+3. Run skippedia in your local : python manage.py runserver 
 ```
 
 ## Built With
