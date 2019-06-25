@@ -1,0 +1,87 @@
+#rating-list {
+	margin: auto;
+}
+
+#option {
+	padding: 5%;
+	margin: auto;
+}
+
+.table-list {
+	margin: auto;
+}
+.col-no {
+	width: 5%;
+	text-align: center;
+}
+
+.col-nim {
+	width: 30%;
+	text-align: center;
+}
+
+.col-nama {
+	width: 50%;
+	text-align: left;
+}
+
+.col-rating {
+	width: 15%;
+	text-align: center;
+}
+
+.th-no {
+	width: 5%;
+}
+
+.th-nim {
+	width: 30%;
+}
+
+.th-nama {
+	width: 50%;
+}
+
+.th-rating {
+	width: 15%;
+}
+
+.find-name {
+	width: 100%;
+}
+
+.input-name {
+	width: 100% !important;
+}
+
+#angkatan {
+	width: 26%;
+	margin-right: 5%;
+}
+
+#jurusan {
+	width: 26%;
+	margin: 0% 5%;
+}
+
+#sort {
+	width: 26%;
+	margin-left: 5%;
+}
+
+td {
+	border: 1px solid rgba(0, 0, 0, 0.06);
+	padding: 12px;
+}
+
+th {
+	text-align : center;
+	border-bottom-width: 2px;
+	color: rgba(0,0,0,.54);
+	border: 1px solid rgba(0, 0, 0, 0.06);
+	padding: 12px;
+}
+
+option {
+	padding: 10px;
+}

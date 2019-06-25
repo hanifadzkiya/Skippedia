@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	{{ student.nama }}
+
+	Rating = {{ average_rating }}
+
+
+	<table class="table table-bordered">
+	  <thead>
+	    <tr>
+		  <th>No</th>
+	      <th>Sender</th>
+	      <th>Rating</th>
+	      <th>Comment</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    {% for reputation in reputations %}
+	      <tr>
+	      	<td>{{ forloop.counter }}</td>
+	        <td>{{ reputation.sender.nama }}</td>
+	        <td>{{ reputation.rating }}</td>
+	        <td>{{ reputation.comment }}</td>
+	      </tr>
+	    {% endfor %}
+	  </tbody>
+	</table>
+
+	{% if reputations.has_other_pages %}
+	  <ul class="pagination">
+	    {% if reputations.has_previous %}
+	      <li><a href="?page={{ reputations.previous_page_number }}">«</a></li>
+	    {% else %}
+	      <li class="disabled"><span>«</span></li>
+	    {% endif %}
+	    {% for i in reputations.paginator.page_range %}
+	      {% if reputations.number == i %}
+	        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+	      {% else %}
+	        <li><a href="?page={{ i }}">{{ i }}</a></li>
+	      {% endif %}
+	    {% endfor %}
+	    {% if reputations.has_next %}
+	      <li><a href="?page={{ reputations.next_page_number }}">»</a></li>
+	    {% else %}
+	      <li class="disabled"><span>»</span></li>
+	    {% endif %}
+	  </ul>
+	{% endif %}
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+{%load static%}
+<head>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons">
+    <link rel="stylesheet" href="https://rawgit.com/creativetimofficial/material-kit/master/assets/css/material-kit.css">
+    <link rel="stylesheet" href="{% static 'css/profile.css'%}">
+
+</head>
+
+<body class="profile-page">
+    <nav class="navbar navbar-color-on-scroll navbar-transparent    fixed-top  navbar-expand-lg "  color-on-scroll="100"  id="sectionsNav">
+        <div class="container">
+            <div class="navbar-translate">
+                <a class="navbar-brand" href="../home">Skippedia</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                    <span class="navbar-toggler-icon"></span>
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        
+            <div class="collapse navbar-collapse">
+            </div>
+        </div>
+    </nav>
+    
+    <div class="page-header header-filter" data-parallax="true" style="background-image:url('https://images.unsplash.com/photo-1548625149-d629f7136bb3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80');"></div>
+        <div class="main main-raised">
+            <div class="profile-content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 ml-auto mr-auto">
+                        <div class="profile">
+                                <div class="avatar">
+                                    {% with 'img/photo/'|add:student.photo as image_static %}
+                                    <img src="{% static image_static %}" alt="Circle Image" class="img-raised rounded-circle img-fluid" style="width: 100%;height: 100%;">
+                                    {% endwith %}
+                                </div>
+                                <div style="clear:both"></div>
+                                <div class="name">
+                                    <h2 class="title">{{student.nama}}</h2>
+                                    <h2 class="title"> Rating : 
+                                        {% if average_rating != None %}
+                                        {{average_rating}} / 10</h2>
+                                        {% else %}
+                                        None
+                                        {% endif %}
+                                </div>
+                                <div class="card">
+                                    <p>Informasi</p>
+                                    <p>Nama : {{student.nama}}</p>
+                                    <p>Jurusan : 
+                                        {% if student.jurusan == 'IF'%}
+                                        Teknik Informatika
+                                        {% elif student.jurusan == 'STI'%}
+                                        Sistem Teknologi dan Informasi
+                                        {% endif %}
+                                    </p>
+                                    <p>Angkatan : {{student.angkatan}}</p>
+                                    <p>Email : {{student.email}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {%if student.email != user.email %}
+                    <hr/>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <form action="/student/{{student.nim}}" method="POST">
+                            {% csrf_token %}
+                                <div class="form-group">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-2"></div>
+                                            <div class="col-md-6 col-sm-8">
+                                                <div class="rating">
+                                                    <input type="radio" id="star10" name="rating" value="10" {% if current_rep.rating == 10 %} checked {% endif%}/><label for="star10" title="Master">5 stars</label>
+                                                    <input type="radio" id="star9" name="rating" value="9" {% if current_rep.rating == 9 %} checked {% endif%}/><label for="star9" title="Caur parah !">4 stars</label>
+                                                    <input type="radio" id="star8" name="rating" value="8" {% if current_rep.rating == 8 %} checked {% endif%}/><label for="star8" title="Nice work dude !">3 stars</label>
+                                                    <input type="radio" id="star7" name="rating" value="7" {% if current_rep.rating == 7 %} checked {% endif%}/><label for="star7" title="Cukup berkontribusi">2 stars</label>
+                                                    <input type="radio" id="star6" name="rating" value="6" {% if current_rep.rating == 6 %} checked {% endif%}/><label for="star6" title="Bolehlah">1 star</label>
+                                                    <input type="radio" id="star5" name="rating" value="5" {% if current_rep.rating == 5 %} checked {% endif%}/><label for="star5" title="Kadang muncul kadang hilang">5 stars</label>
+                                                    <input type="radio" id="star4" name="rating" value="4" {% if current_rep.rating == 4 %} checked {% endif%}/><label for="star4" title="Masih saya maafkan">4 stars</label>
+                                                    <input type="radio" id="star3" name="rating" value="3" {% if current_rep.rating == 3 %} checked {% endif%}/><label for="star3" title="Rada gimana gitu sih">3 stars</label>
+                                                    <input type="radio" id="star2" name="rating" value="2" {% if current_rep.rating == 2 %} checked {% endif%}/><label for="star2" title="Skipnya sering">2 stars</label>
+                                                    <input type="radio" id="star1" name="rating" value="1" {% if current_rep.rating == 1 %} checked {% endif%}/><label for="star1" title="Gaib">1 star</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-2"></div>
+                                        </div>
+                                    </div>
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-2"></div>
+                                            <div class="col-md-8">
+                                                <label for="comment">Komentar</label>
+                                                <textarea class="form-control" rows="5" name="comment" placeholder="Bagaimana anda menurut dia ?" >{{current_rep.comment}}</textarea>
+                                            </div>
+                                            <div class="col-md-2"></div>
+                                        </div>
+                                    </div>
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-5"></div>
+                                            <div class="col-md-2"><button type="submit" class="btn btn-info">Ubah</button></div>
+                                            <div class="col-md-5"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {%endif%}
+                <hr/>
+                <div class="tab-content tab-space">
+                    <div class="tab-pane active text-center gallery" id="studio">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Rating</th>
+                                    <th>Comment</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for reputation in reputations %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ reputation.rating }}</td>
+                                    <td>{{ reputation.comment }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>      
+                        {% if reputations.has_other_pages %}
+                        <ul class="pagination">
+                            {% if reputations.has_previous %}
+                            <li><a href="?page={{ reputations.previous_page_number }}">«</a></li>
+                            {% else %}
+                            <li class="disabled"><span>«</span></li>
+                            {% endif %}
+                            {% for i in reputations.paginator.page_range %}
+                            {% if reputations.number == i %}
+                            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                            {% else %}
+                            <li><a href="?page={{ i }}">{{ i }}</a></li>
+                            {% endif %}
+                            {% endfor %}
+                            {% if reputations.has_next %}
+                            <li><a href="?page={{ reputations.next_page_number }}">»</a></li>
+                            {% else %}
+                            <li class="disabled"><span>»</span></li>
+                            {% endif %}
+                        </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	<footer class="footer text-center ">
+        <p>Made with <a href="https://demos.creative-tim.com/material-kit/index.html" target="_blank">Material Kit</a> by Creative Tim</p>
+    </footer>
+    
+    <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
+
+</body>
