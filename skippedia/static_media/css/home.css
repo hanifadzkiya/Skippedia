@@ -55,13 +55,23 @@
 }
 
 #angkatan {
-	width: 26%;
+	width: 40%;
 	margin-right: 5%;
 }
 
 #jurusan {
-	width: 26%;
-	margin: 0% 5%;
+	width: 45%;
+	margin: 0%;
+}
+
+#angkatan2 {
+	width: 40%;
+	margin-right: 5%;
+}
+
+#jurusan2 {
+	width: 45%;
+	margin: 0%;
 }
 
 #sort {

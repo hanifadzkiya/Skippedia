@@ -31,8 +31,11 @@ def home(request) :
 		data = {"user":user};
 		return render(request,"skippedia/home.html",data)
 	else :
-
 		return redirect('/')
+
+def search(request) :
+	if request.user.is_authenticated :
+		return render(request,"skippedia/search.html")
 
 @csrf_protect
 def students(request) :
